@@ -15,6 +15,7 @@ import {
 import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
+  DollarSign as DollarSignIcon,
   Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -58,7 +59,7 @@ const items = [
   },
   {
     href: '/app/sales',
-    icon: SettingsIcon,
+    icon: DollarSignIcon,
     title: 'Sales'
   },
   {

@@ -9,6 +9,7 @@ Requirements:
 
 Assessing solution:
 - After reading the requirements I attempted to keep the UI minimilistic and similar to the views that were already established.
+- I've created another route and menu item "Sales" which displays the VideoGameSales view
 - Utilizing react hooks "useEffect" I've retrieved the video game sales JSON using fetch from the API endpoint provided ('https://codingtestfe.dev-illumix.com/videogamesales').
 - I created a VideoGameSales component that inherits the sales data fetched from the API to display each sales object. Here I chose to use Material UI's "Chip" element to display the data in a simple format to display rank (top number in each card), name, platform, year, publisher and global_sales.
 - To create the filter by genre feature I've created an input using Material UI that stores user input (genre). I've created a filter function that checks if the input value matches the genre of any sales object which will then display the corresponding matches.
