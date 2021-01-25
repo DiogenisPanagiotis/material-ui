@@ -28,7 +28,7 @@ const ProductList = () => {
   const classes = useStyles();
   const [sales, setSales] = useState([]);
   const [genre, setGenre] = useState('');
-  const itemsPerPage = 6;
+  const maxItems = 6;
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ProductList = () => {
 
   const filterSales = (data) => {
     const filtered = data.filter((sale) => sale.genre.toLowerCase().includes(genre));
-    return filtered.slice(((page - 1) * (itemsPerPage)), ((page) * (itemsPerPage)));
+    return genre.length ? filtered : filtered.slice(((page - 1) * (maxItems)), (page * maxItems));
   };
 
   return (
