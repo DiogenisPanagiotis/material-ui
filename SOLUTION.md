@@ -19,6 +19,8 @@ Additional Upgrades for future:
 - It would be great to add a filter function for all of the sub categories in the sales data such as filtering by rank, platform, year, publisher or the global sales count.
 - Adding a graph, perhaps using Charts.js would be a great feature that help users visualize the data being presented!
 
+(NOTE: I included a new icon "dollar-sign" from react-feather" that is updated on my github solution but not present in the .zip file I've sent in the email)
+
 ## Quick Start
 
 1. yarn install
