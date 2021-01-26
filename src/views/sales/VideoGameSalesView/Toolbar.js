@@ -5,12 +5,12 @@ import {
   Box,
   Card,
   CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon,
-  makeStyles
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -19,11 +19,30 @@ const useStyles = makeStyles((theme) => ({
   },
   exportButton: {
     marginRight: theme.spacing(1)
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
-const Toolbar = ({ className, setGenre, ...rest }) => {
+const Toolbar = ({
+  className,
+  genre,
+  genreList,
+  setGenre,
+  ...rest
+}) => {
   const classes = useStyles();
+
+  const renderMenuItems = () => {
+    return genreList && genreList.map((field) => {
+      return <MenuItem key={field} value={field}>{field}</MenuItem>;
+    });
+  };
 
   return (
     <div
@@ -34,24 +53,19 @@ const Toolbar = ({ className, setGenre, ...rest }) => {
         <Card>
           <CardContent>
             <Box maxWidth={500}>
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  )
-                }}
-                placeholder="Search by genre"
-                variant="outlined"
-                onChange={(e) => setGenre(e.target.value.toLowerCase())}
-              />
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Genre</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={genre}
+                  onChange={({ target }) => setGenre(target.value)}
+                  label="Genre"
+                >
+                  <MenuItem value="">None</MenuItem>
+                  {renderMenuItems()}
+                </Select>
+              </FormControl>
             </Box>
           </CardContent>
         </Card>
@@ -62,6 +76,8 @@ const Toolbar = ({ className, setGenre, ...rest }) => {
 
 Toolbar.propTypes = {
   className: PropTypes.string,
+  genre: PropTypes.string,
+  genreList: PropTypes.array,
   setGenre: PropTypes.func,
 };
 

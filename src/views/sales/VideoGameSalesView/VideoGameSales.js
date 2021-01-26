@@ -8,16 +8,17 @@ import {
   Chip,
   colors,
   Divider,
-  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
   Typography,
-  makeStyles
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const useStyles = makeStyles((theme) => ({
   chip: {
-    borderColor: colors.indigo[500],
-    color: colors.indigo[500],
+    backgroundColor: colors.indigo[500],
+    color: '#fff',
     display: 'flex',
     marginTop: '10px'
   },
@@ -41,8 +42,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SalesCard = ({ className, sale, ...rest }) => {
+const fields = {
+  genre: 'Genre',
+  platform: 'Platform',
+  publisher: 'Publisher',
+  global_sales: 'Global Sales'
+};
+
+const SalesCard = ({
+  className,
+  sale,
+  ...rest
+}) => {
   const classes = useStyles();
+
+  const renderList = () => {
+    return (
+      <List className={classes.root}>
+        {Object.keys(fields).map((field) => {
+          return (
+            <>
+              <ListItem>
+                <ListItemText primary={fields[field]} secondary={sale[field]} />
+              </ListItem>
+              <Divider variant="middle" />
+            </>
+          );
+        })}
+      </List>
+    );
+  };
 
   return (
     <Card
@@ -55,7 +84,11 @@ const SalesCard = ({ className, sale, ...rest }) => {
           justifyContent="center"
           mb={3}
         >
-          <Chip className={classes.chip} label={sale.rank} variant="outlined" />
+          <Chip
+            className={classes.chip}
+            label={sale.rank}
+            variant="outlined"
+          />
         </Box>
         <Typography
           align="center"
@@ -66,37 +99,9 @@ const SalesCard = ({ className, sale, ...rest }) => {
         >
           {sale.name}
         </Typography>
-        <Chip className={classes.chip} label={`Platform: ${sale.platform}`} variant="outlined" />
-        <Chip className={classes.chip} label={`Year: ${sale.year}`} variant="outlined" />
-        <Chip className={classes.chip} label={`Publisher: ${sale.publisher}`} variant="outlined" />
-        <Chip className={classes.chip} label={`Global Sales: ${sale.global_sales}`} variant="outlined" />
+        {renderList()}
       </CardContent>
       <Box flexGrow={1} />
-      <Divider />
-      <Box p={2}>
-        <Grid
-          container
-          justify="space-between"
-          spacing={2}
-        >
-          <Grid
-            className={classes.statsItem}
-            item
-          >
-            <AccessTimeIcon
-              className={classes.statsIcon}
-              color="action"
-            />
-            <Typography
-              color="textSecondary"
-              display="inline"
-              variant="body2"
-            >
-              Updated 2hr ago
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
     </Card>
   );
 };

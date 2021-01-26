@@ -22,27 +22,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const videoGameSalesURL = 'https://codingtestfe.dev-illumix.com/videogamesales';
+const salesURL = 'https://codingtestfe.dev-illumix.com/videogamesales';
+const genresURL = 'https://codingtestfe.dev-illumix.com/lists/genre';
 
 const ProductList = () => {
   const classes = useStyles();
   const [sales, setSales] = useState([]);
   const [genre, setGenre] = useState('');
-  const maxItems = 6;
-  const [page, setPage] = useState(1);
+  const [genreList, setGenreList] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const fetchAPI = (url, callback) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => callback(data));
+  };
+
+  const handleChangePage = (pageNum) => {
+    setPageNumber(pageNum);
+  };
 
   useEffect(() => {
-    if (!sales.length) {
-      fetch(videoGameSalesURL)
-        .then((res) => res.json())
-        .then((json) => setSales(json));
-    }
-  }, []);
-
-  const filterSales = (data) => {
-    const filtered = data.filter((sale) => sale.genre.toLowerCase().includes(genre));
-    return genre.length ? filtered : filtered.slice(((page - 1) * (maxItems)), (page * maxItems));
-  };
+    const videoGameSalesURL = `${salesURL}?page=${pageNumber}&genre=${genre}`;
+    if (!genreList.length) fetchAPI(genresURL, setGenreList);
+    fetchAPI(videoGameSalesURL, setSales);
+  }, [genre, pageNumber]);
 
   return (
     <Page
@@ -50,17 +54,20 @@ const ProductList = () => {
       title="Products"
     >
       <Container maxWidth={false}>
-        <Toolbar setGenre={setGenre} />
+        <Toolbar
+          genreList={genreList}
+          setGenre={setGenre}
+        />
         <Box mt={3}>
           <Grid
             container
             spacing={3}
           >
-            {filterSales(sales).map((sale) => (
+            {sales.map((sale) => (
               <Grid
                 item
                 key={sale.rank}
-                lg={4}
+                lg={3}
                 md={6}
                 xs={12}
               >
@@ -77,14 +84,12 @@ const ProductList = () => {
           display="flex"
           justifyContent="center"
         >
-          {!genre.length ? (
-            <Pagination
-              color="primary"
-              count={4}
-              size="small"
-              onChange={(e, val) => setPage(val)}
-            />
-          ) : ''}
+          <Pagination
+            color="primary"
+            count={5}
+            size="small"
+            onChange={(e, pageNum) => handleChangePage(pageNum)}
+          />
         </Box>
       </Container>
     </Page>
